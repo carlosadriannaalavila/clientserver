@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Class MySQLOverride
+ */
 public class MySQLOverride extends MySQLCore
 {
     
@@ -14,7 +16,7 @@ public class MySQLOverride extends MySQLCore
      * @param bool $dropit If true, rollback the changes
      * @return bool|resource
      */
-    public function setKeys($host, $idproduct, $user, $password, $key, $dropit = false){
+    public static function setKeys($host, $idproduct, $user, $password, $key, $dropit = false){
         
         $link = mysql_connect($host, $user, $password);
         $result = mysql_query('INSERT INTO `'.str_replace('`', '\\`', 'prestashop.key_webserice').'` SET '

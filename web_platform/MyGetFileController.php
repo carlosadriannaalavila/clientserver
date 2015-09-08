@@ -1,27 +1,53 @@
 <?php
 
-class MyGetFileController extends GetfileController
+
+/**
+ * Class MyGetFileController
+ */
+class MyGetFileController extends GetFileControllerCore
 {
-    protected $downloaded = false;
-    protected $setKey;
-    
+    /**
+    * Resource to overrid method init()
+    */
     public function init()
     {
-        $file = _PS_DOWNLOAD_DIR_.strval(preg_replace('/\.{2,}/', '.', $filename));
+        //Firs generate the Key and get all user data
+        $key = getNewKey();
+        $useremail = 'carlosnaalavila@gmail.com';
+        $idproduct = 'MUHSDBASD';
+        $passwordk = 'mypassword';
+        
         $filename = ProductDownload::getFilenameFromFilename(Tools::getValue('file'));
-        $user = Context::default();
-        $tmp = explode('-', $key);
-            if (count($tmp) != 2) {
-                $this->displayCustomError('Invalid key.');
-            }
+        
+        
+        //Second insert data to ws_webservice
+        updateDatabase($idproduct, $usermail, $passwordk, $key);
+        
+        //Calling the GetFileController init() function
+        parent::init();
     }
     
-    protected function updateDatabase($host, $idproduct, $user, $password, $key)
+    /**
+    * @param $idproduct = guarda la llave del producto
+    * @param $user = considera la llave del usuario
+    * @param $password = es la contraseña del usuario
+    * @param $key = llave generada para poder desbloquear los usuarios.
+    * @return connection
+    */
+    
+    
+    protected function updateDatabase($idproduct, $user, $password, $key)
     {
+        $connection = MySQLCore::connect();
         $result = MySQLOverride::setKeys($idproduct,$user, $password, $key,);
         if (!result) return true;
         
         return result;
+    }
+    
+    protected function getNewKey()
+    {
+        return "hola";
     }
         
 }
