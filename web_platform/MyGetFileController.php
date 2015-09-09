@@ -7,32 +7,27 @@
 class MyGetFileController extends GetFileControllerCore
 {
     /**
-    * Resource to overrid method init()
+    * Resource to override method init()
     */
     public function init()
     {
         //Firs generate the Key and get all user data
         $key = getNewKey();
+        $hash = getHash(Tools:getValue('secure_key'));
+        //Se encuentra toda la información
+        $info = getOrderData($hash);
+        $orderReference = 'MUHSDBASD';
+        $idCostumer = '';
         
-        //$hash = getHash(Tools:getValue('secure_key'));
-        $secureKey = Tools::getValue('secure_key');
-        $info = getOrderData($secureKey);
-        
-        if(isset($idUsuario = $info['id_customer'])
+        if(!isset($idCostumer = $info['id_customer'])
         {
-            
+            $this->parent::displayCustomError('you have already downloaded the unlocker_key');
+        } else {
+            $orderReference = $info['reference'];
         }
         
-        //Obtain order_reference from ps_order_payment
-        
-        $orderReference = 'MUHSDBASD';
-        
-        
-        $filename = ProductDownload::getFilenameFromFilename(Tools::getValue('file'));
-        
-        
         //Second insert data to ws_webservice
-        updateDatabase($orderReference, $usermail, $key);
+        updateDatabase($orderReference, $idCostumer, $key);
         
         //Calling the GetFileController init() function
         parent::init();
@@ -54,7 +49,6 @@ class MyGetFileController extends GetFileControllerCore
         return result;
     }
     
-    
     /**
     * Generates a Key for products.
     */
@@ -66,23 +60,25 @@ class MyGetFileController extends GetFileControllerCore
     
     /**
     * @param $hash = Es 
-    * @param $user = considera la llave del usuario
-    * @param $password = es la contraseña del usuario
-    * @param $key = llave generada para poder desbloquear los usuarios.
-    * @return connection
+    * @return SQL
     */
-    protected static function getOrderReference($hash){
+    protected static function getOrderData($hash){
         if ($hash == '') {
             return false;
         }
         $sql = 'SELECT *
-		FROM `'._DB_PREFIX_.'order_detail` od
-		LEFT JOIN `'._DB_PREFIX_.'product_download` pd ON (od.`product_id`=pd.`id_product`)
+		FROM `'._DB_PREFIX_.'orders` os
+		LEFT JOIN `'._DB_PREFIX_.'order_detail` od ON (os.`id_order`=od.`id_order`)
 		WHERE od.`download_hash` = \''.pSQL(strval($hash)).'\'
-		AND pd.`active` = 1';
+		AND pd.`active` = 1 AND  and download_nb < 1';
         return Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow($sql);
     }
     
+    /**
+    * Obtiene el hash de un input key
+    * @param $key = Cadena unica asignada al usuario para su descarga.
+    * @return $hash = cadena de descarga unica por usuario para enlazarlo con su archivo.
+    */
     protected static function getHash($key)
     {
         $tmp = explode('-',$key);
@@ -94,14 +90,16 @@ class MyGetFileController extends GetFileControllerCore
         return $hash;
     }
     
-    protected static function getOrderData($secure_key)
+    /**
+    * Saves data on DB
+    * @param $idCostumer = Id del cliente que compro la descarga directa.
+    * @param $orderReference = referencia que se asigna a la descarga de un producto virtual.
+    * @param $key= llave generada para el uso del usuario y para descargar productos virtuales.
+    * @return $result = resultado de la ejecución SQL.
+    */
+    protected static function persisteData($idCostumer, $orderReference, $key)
     {
-        if ($hash == '') {
-            return false;
-        }
-        
-        $sql = 'SELECT * FROM `'.DB_PREFXI_.'orders WHERE secure_key = '.pSQL(strval($secure_key));
-        return Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow($sql);
+        $sql = 'INSERT INTO `'._DB_PREFIX_'ps_webservice` VALUES ('.strval($orderReference).','.(int)$idCostumer.','.strval($key).',null);';
+        return DB::getInstance(_PS_USE_SQL_SLAVE_)->execute($sql);
     }
-        
 }
