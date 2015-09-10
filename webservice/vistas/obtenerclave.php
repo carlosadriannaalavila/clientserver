@@ -1,7 +1,7 @@
 <?php
-	$server= "localhost";
+	$server= "localhost:8889";
 	$user= "root";
-	$pwd="";
+	$pwd="root";
 	$bd="prestashop";
 
     $email= $_POST['email'];
@@ -24,7 +24,7 @@
 	$conexion->set_charset("utf8");
 
 	//generamos la consulta
-	$sql = "SELECT * FROM ps_webservice WHERE user = '".$email."' AND IdProduct = '".$cod_prod."'";
+	$sql = "SELECT * FROM ps_webservice WHERE reference = '".strval($cod_prod)."'";
 	
     try
     {
@@ -32,36 +32,42 @@
        
        if (!$result){
        	throw new Exception("Error Processing Request", 1);
-       	
        }
 
-      while($row = mysqli_fetch_array($result)) 
-	{ 
-    	$IdProduct=$row['IdProduct'];
-    	$user=$row['user'];
-    	$download_date=$row['download_date'];
-    	$key=$row['key'];
- 
-    	$webservicee[] = array('IdProduct'=> $IdProduct, 'user'=> $user, 'download_date'=> $download_date, 'key'=> $key);
-	}
-
-     
-
+        $row = mysqli_fetch_array($result);
+        $IdProduct=$row['reference'];
+        $user=$row['id_customer'];
+        $key=$row['key'];
+        $download_date=$row['download_date'];
+        
+        $result->close();
+        
+        if(!(int)$download_date and $IdProduct != null){
+            $webservicee[] = array('IdProduct'=> $IdProduct, 'user'=> $user, 'download_date' => $download_date, 'key' => $key);
+                
+            $mySQLTime = date('Y-m-d H:i:s', time());
+            
+            $sql = "UPDATE ps_webservice SET download_date = '".$mySQLTime."' WHERE reference = '".$cod_prod."'";
+            $result = $conexion->query($sql);
+        }
+        
     } catch (Exception $e){
-    	echo "Error en la consulta".$e;
+    	echo "Error en la consulta ".$e;
+        //desconectamos la base de datos
+	   
     }
 
+    $close = mysqli_close($conexion) 
+	   or die("Ha sucedido un error inexperado en la desconexion de la base de datos");
 
 
-	//desconectamos la base de datos
-	$close = mysqli_close($conexion) 
-	or die("Ha sucedido un error inexperado en la desconexion de la base de datos");
+	
   
  if ($webservicee==null){
-	$mensaje="¡Por favor verifique que los datos ingresados esten correctos!";
+	$mensaje="No podemos brindarle su clave porque ya la ha descargado o introdujo datos incorrectos";
 
  }else{
-	//Creamos un objeto JSON
+      //Creamos un objeto JSON
 	/*$json_string = json_encode($webservicee);
 	echo "La clave para el producto solicitado es: ".$key;
 	echo "<br>"; //* Esto es un salto de linea
@@ -76,7 +82,7 @@
 	echo "<br>";
 	echo "<input type='button' value='Regresar' onclick='history.go(-1)'>";
 	*/
-}
+ }
 ?>
 <!DOCTYPE html>
 <html lang="en">
