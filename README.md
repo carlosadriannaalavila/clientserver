@@ -70,13 +70,13 @@ Overall Objective:
 --------------------
 
 root
-->prestashop_db_backup
+-prestashop_db_backup
 	-1441896642-30963f29.sql.bz2
-->web_platform
+-web_platform
 	-GetFileController.php
 	-GetFileControllerOverride.php
 	-MySQLOverride.php
-->webservice
+-webservice
 	->css
 		-cssestilo.css
 	-index.html
@@ -91,38 +91,37 @@ This installation is only to developers on simple platforms, so it doesn't need 
 
 Installations Steps:
 
-1.- Install an Apache Full Distribution package (such as xamp, mamp, etc.).
-2.- Install prestashop following the instructions of this link http://doc.prestashop.com/display/PS16/Setting+Up+Your+Local+Development+Environment (recommended). --NOTE REMEMBER SAVE THE URLs OF YOUR FRONT-OFFICE AND YOUR BACK-OFFICE INDICATED AT THE END OF THE INSTALLATION
-3.- After Install shutdown your MAMP/XAMP and configure your Time Zone in the config folder of your current Apache (usually you do this dependending on your distribution of apache in the "MAMP or XAMP"->conf->"your current php distribution php5.6.10 fro example").
-3.- Go to your xamp, mamp, etc. Folder: "htdocs"->prestashop->controllers->front and backup your "GetFileControll.php" (copy to another folder, just don't forget where do you keep it).
-4.- Go to your phpmyadmin an add the next sql sentence: CREATE TABLE `prestashop`.`ps_webservice` (`reference` VARCHAR(15) NOT NULL,`id_customer` VARCHAR(45) NULL, `key` VARCHAR(45) NULL DEFAULT NULL, `download_date` VARCHAR(45) NULL DEFAULT NULL, PRIMARY KEY (`reference`));
-4.- Delete file "class_index.php" located on "htdocs"->prestashop->cache.
-5.- Copy the folder webservice in your "htdocs" folder.
+- Install an Apache Full Distribution package (such as xamp, mamp, etc.).
+- Install prestashop following the instructions of this link http://doc.prestashop.com/display/PS16/Setting+Up+Your+Local+Development+Environment (recommended). --NOTE REMEMBER SAVE THE URLs OF YOUR FRONT-OFFICE AND YOUR BACK-OFFICE INDICATED AT THE END OF THE INSTALLATION.
+- After Install shutdown your MAMP/XAMP and configure your Time Zone in the config folder of your current Apache (usually you do this dependending on your distribution of apache in the "MAMP or XAMP"->conf->"your current php distribution php5.6.10 fro example").
+- Go to your xamp, mamp, etc. Folder: "htdocs"->prestashop->controllers->front and backup your "GetFileControll.php" (copy to another folder, just don't forget where do you keep it).
+- Go to your phpmyadmin an add the next sql sentence: CREATE TABLE `prestashop`.`ps_webservice` (`reference` VARCHAR(15) NOT NULL,`id_customer` VARCHAR(45) NULL, `key` VARCHAR(45) NULL DEFAULT NULL, `download_date` VARCHAR(45) NULL DEFAULT NULL, PRIMARY KEY (`reference`));
+- Delete file "class_index.php" located on "htdocs"->prestashop->cache.
+- Copy the folder webservice in your "htdocs" folder.
 
 --------------------
 5.- Further actions
 --------------------
 
-1.- Modify variables from PHP file "obtenerclave.php" accord your server configurations
+- Modify variables from PHP file "obtenerclave.php" accord your server configurations
 	-$server= "yourserver and port";
 	-$user= "your user";
 	-$pwd="your password";
-2.- Save the webservice modifications.
+- Save the webservice modifications.
 
 --------------------
 6.- Running & use
 --------------------
 
-1.- With your MAMP/XAMP distribution just open your prestashop url for customers normally is http://"server:port"/prestashop
-2.- Register an user and finally purchase the digital product you downloaded.
-3.- After that, two mail will go to your inbox in your email addres especified in the registry if you used a check payment method you must go to your back-office go to Orders->Orders->"Select the order and upate the state of your purchase to Payment Accepted".
-4.- There will be another pair of mails, one of the contains the link to your file (you must download your file).
-5.- Click the link "Servicio de llaves".
-6.- Once in the webpage you must introduce your username and your Reference, wich is in the mail.
+- With your MAMP/XAMP distribution just open your prestashop url for customers normally is http://"server:port"/prestashop
+- Register an user and finally purchase the digital product you downloaded.
+- After that, two mail will go to your inbox in your email addres especified in the registry if you used a check payment method you must go to your back-office go to Orders->Orders->"Select the order and upate the state of your purchase to Payment Accepted".
+- There will be another pair of mails, one of the contains the link to your file (you must download your file).
+- Click the link "Servicio de llaves".
+- Once in the webpage you must introduce your username and your Reference, wich is in the mail.
 
 --------------------
 7.- Conclusions
 --------------------
 
 The process is rather simple but it's a very common behaviour in the internet, an example of use is the key service of Microsoft Office 365 which you download but to used it you need your key to activate it, the use of web pages, webservices, forms and purchase process makes this example a very actual example of the interaction between a Client wich makes requests and a Server that responses in consequence.
-
