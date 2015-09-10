@@ -93,7 +93,7 @@ Installations Steps:
 
 - Install an Apache Full Distribution package (such as xamp, mamp, etc.).
 - Install prestashop following the instructions of this link http://doc.prestashop.com/display/PS16/Setting+Up+Your+Local+Development+Environment (recommended). --NOTE REMEMBER SAVE THE URLs OF YOUR FRONT-OFFICE AND YOUR BACK-OFFICE INDICATED AT THE END OF THE INSTALLATION.
-- After Install shutdown your MAMP/XAMP and configure your Time Zone in the config folder of your current Apache (usually you do this dependending on your distribution of apache in the "MAMP or XAMP"->conf->"your current php distribution php5.6.10 fro example").
+- After Install shutdown your MAMP/XAMP and configure your Time Zone in the config folder of your current Apache (usually you do this dependending on your distribution of apache in the "MAMP or XAMP"->conf->"your current php distribution php5.6.10 for example").
 - Go to your xamp, mamp, etc. Folder: "htdocs"->prestashop->controllers->front and backup your "GetFileControll.php" (copy to another folder, just don't forget where do you keep it).
 - Go to your phpmyadmin an add the next sql sentence: ```CREATE TABLE `prestashop`.`ps_webservice` (`reference` VARCHAR(15) NOT NULL,`id_customer` VARCHAR(45) NULL, `key` VARCHAR(45) NULL DEFAULT NULL, `download_date` VARCHAR(45) NULL DEFAULT NULL, PRIMARY KEY (`reference`));```
 - Delete file "class_index.php" located on "htdocs"->prestashop->cache.
@@ -118,7 +118,7 @@ Installations Steps:
 - After that, two mail will go to your inbox in your email addres especified in the registry if you used a check payment method you must go to your back-office go to Orders->Orders->"Select the order and upate the state of your purchase to Payment Accepted".
 - There will be another pair of mails, one of the contains the link to your file (you must download your file).
 - Click the link "Servicio de llaves".
-- Once in the webpage you must introduce your username and your Reference, wich is in the mail.
+- Once in the webpage you must introduce your username and your Reference, which is in the mail.
 
 --------------------
 7.- Conclusions
