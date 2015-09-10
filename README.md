@@ -77,10 +77,10 @@ root
 	-GetFileControllerOverride.php
 	-MySQLOverride.php
 -webservice
-	->css
+	-css
 		-cssestilo.css
 	-index.html
-	->vistas
+	-vistas
 		-obtenerclave.php
 
 --------------------
@@ -95,7 +95,7 @@ Installations Steps:
 - Install prestashop following the instructions of this link http://doc.prestashop.com/display/PS16/Setting+Up+Your+Local+Development+Environment (recommended). --NOTE REMEMBER SAVE THE URLs OF YOUR FRONT-OFFICE AND YOUR BACK-OFFICE INDICATED AT THE END OF THE INSTALLATION.
 - After Install shutdown your MAMP/XAMP and configure your Time Zone in the config folder of your current Apache (usually you do this dependending on your distribution of apache in the "MAMP or XAMP"->conf->"your current php distribution php5.6.10 fro example").
 - Go to your xamp, mamp, etc. Folder: "htdocs"->prestashop->controllers->front and backup your "GetFileControll.php" (copy to another folder, just don't forget where do you keep it).
-- Go to your phpmyadmin an add the next sql sentence: CREATE TABLE `prestashop`.`ps_webservice` (`reference` VARCHAR(15) NOT NULL,`id_customer` VARCHAR(45) NULL, `key` VARCHAR(45) NULL DEFAULT NULL, `download_date` VARCHAR(45) NULL DEFAULT NULL, PRIMARY KEY (`reference`));
+- Go to your phpmyadmin an add the next sql sentence: ```CREATE TABLE `prestashop`.`ps_webservice` (`reference` VARCHAR(15) NOT NULL,`id_customer` VARCHAR(45) NULL, `key` VARCHAR(45) NULL DEFAULT NULL, `download_date` VARCHAR(45) NULL DEFAULT NULL, PRIMARY KEY (`reference`));```
 - Delete file "class_index.php" located on "htdocs"->prestashop->cache.
 - Copy the folder webservice in your "htdocs" folder.
 
@@ -104,9 +104,9 @@ Installations Steps:
 --------------------
 
 - Modify variables from PHP file "obtenerclave.php" accord your server configurations
-	-$server= "yourserver and port";
-	-$user= "your user";
-	-$pwd="your password";
+	-```$server= "yourserver and port";```
+	-```$user= "your user";```
+	-```$pwd="your password";```
 - Save the webservice modifications.
 
 --------------------
